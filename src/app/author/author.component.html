@@ -1,0 +1,141 @@
+<div class="Container-fluid">
+        <h2 align="center">Add author</h2>
+        <form [formGroup]="authorForm" (ngSubmit)="onFormSubmit(authorForm.value)">
+            <div class="form-group">
+                <label>First Name</label>
+                <input type = "text" formControlName="first_name" class = "form-control">
+            </div>
+    
+            <div class="form-group">
+                <label>Last Name</label>
+                <input type = "text" formControlName="last_name" class = "form-control">
+            </div>
+    
+            <div class="form-group">
+                <label>Birth Date</label>
+                <input type = "text" formControlName="date_of_birth" class = "form-control">
+            </div>
+    
+            <button type="submit">Submit</button>
+            <button type="reset" (click)="resetForm()">Reset</button>
+            <h2 align = "center">Authors info</h2>
+            <table id="authors" class="table table-bordered table-striped text-center">
+                <tr>
+                    <th>FirstName</th>
+                    <th>LastName</th>
+                    <th>DateOfBirth</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+                <tr *ngFor="let author of allAuthors | async | paginate: { itemsPerPage: count, currentPage: p }">
+                    <td>{{author.first_name}}</td>
+                    <td>{{author.last_name}}</td>
+                    <td>{{author.date_of_birth}}</td>
+                    <td>
+                        <button type="button" (click)="loadAuthorToEdit(author.id)">Edit</button>
+                    </td>
+                    <td>
+                        <button type="button" (click)="deleteAuthor(author.id)">Delete</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+        <div class="text-center">
+            <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </div>
+    </div>
+
+
+
+<!-- <mat-card>
+    <mat-toolbar color="accent">
+        <span align="center">Angular CRUD operations with web API</span>
+        <p *ngIf="dataSaved" ngClass="success" align="right">
+            {{message}}
+        </p>
+    </mat-toolbar>
+
+    <mat-card-content>
+        <form [formGroup]="authorForm" (ngSubmit)="onFormSubmit(authorForm.value)">
+            <table>
+                <tr>
+                    <td>
+                        <table>
+                            <tr>
+                                <td>
+                                    <mat-form-field class="demo-full-width">
+                                        <input formControlName="first_name" matInput placeholder="First Name">
+                                    </mat-form-field>
+                                </td>
+                                <td>
+                                    <mat-form-field class="demo-full-width">
+                                        <input formControlName="last_name" matInput placeholder="Last Name">
+                                    </mat-form-field>
+                                </td>
+                                <td>
+                                    <mat-form-field class="demo-full-width">
+                                        <input formControlName="date_of_birth" matInput placeholder="Date Of Birth">
+                                    </mat-form-field>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" class="content-center">
+                                    <button type="submit" mat-raised-button color="accent" [disabled]="!authorForm.valid">Submit</button>
+                                    <button type="reset" mat-raised-button color="accent" (click)="resetForm()">Reset</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td valign="top">
+                        <table id="authors">
+                            <tr>
+                                <th>FirstName</th>
+                                <th>LastName</th>
+                                <th>DateOfBirth</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                            </tr>
+                            <tr *ngFor="let author of allAuthors | async">
+                                <td>{{author.first_name}}</td>
+                                <td>{{author.last_name}}</td>
+                                <td>{{author.date_of_birth}}</td>
+                                <td>
+                                    <button type="button" (click)="loadAuthorToEdit(author.id)">Edit</button>
+                                </td>
+                                <td>
+                                    <button type="button" (click)="deleteAuthor(author.id)">Delete</button>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </mat-card-content>
+</mat-card> -->
+<!-- <h1 align="center">Authors data</h1>
+<div class="container">
+  <table class="table table trapped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>First Name</th>
+        <th>Last name</th>
+        <th>Date of birth</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor='let author of authors$ | paginate: { itemsPerPage: count, currentPage: p }'>
+        <td>{{author.id}}</td>
+        <td>{{author.first_name}}</td>
+        <td>{{author.last_name}}</td>
+        <td>{{author.date_of_birth}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="text-center">
+  <pagination-controls (pageChange)="p = $event"></pagination-controls>
+</div> -->
+
