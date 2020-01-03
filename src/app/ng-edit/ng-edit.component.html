@@ -1,0 +1,93 @@
+<mat-card>
+        <mat-toolbar color="accent">
+            <span align="center">Angular CRUD operations</span>
+        </mat-toolbar>
+    </mat-card>
+        
+    
+    <div class="Container-fluid">
+        <form [formGroup]="authorForm" (ngSubmit)="onFormSubmit(authorForm.value)">
+            <h2 align = "center">Authors info</h2>
+            <table id="authors" class="table table-bordered table-striped text-center">
+                <tr>
+                    <th>ID</th>
+                    <th>FirstName</th>
+                    <th>LastName</th>
+                    <th>DateOfBirth</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+                <tr *ngFor="let author of allAuthors | async | paginate: { itemsPerPage: count, currentPage: p }">
+                    <td>{{author.id}}</td>
+                    <td>
+                        <span *ngIf="enableEditIndex != author.id">{{author.first_name}}</span>
+                        <input type="text" formControlName="first_name" [(ngModel)]="author.first_name" *ngIf="enableEdit && enableEditIndex == author.id"/>
+                    </td>
+                    <td>
+                        <span *ngIf="enableEditIndex != author.id">{{author.last_name}}</span>
+                        <input type="text" formControlName="last_name" [(ngModel)]="author.last_name" *ngIf="enableEdit && enableEditIndex == author.id"/>
+                    </td>
+                    <td>
+                        <span *ngIf="enableEditIndex != author.id">{{author.date_of_birth}}</span>
+                        <input type="text" formControlName="date_of_birth" [(ngModel)]="author.date_of_birth" *ngIf="enableEdit && enableEditIndex == author.id"/>
+                    </td>
+                    <td>
+                        <button type="button" class="table-row-action edit-action" *ngIf="author.id != enableEditIndex || enableEditIndex == null" (click)="enableEditMethod($event, author.id)">Edit</button>
+                        <button type="button" *ngIf="enableEdit && enableEditIndex == author.id" (click)="enableEdit=false; cancel()">Cancel</button>
+                        <button type="submit" *ngIf="enableEdit && enableEditIndex == author.id" (click)="onFormSubmit()">Submit</button>
+                    </td>
+                    <td>
+                        <button type="button" (click)="deleteAuthor(author.id)">Delete</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+        <div class="text-center">
+            <pagination-controls (pageChange)="p = $event"></pagination-controls>
+        </div>
+    </div>
+    
+    
+    
+
+
+
+
+<!-- <div class="Container-fluid">        
+    <table id="authors" class="table table-bordered table-striped text-center">
+        <tr>
+            <th>ID</th>
+            <th>FirstName</th>
+            <th>LastName</th>
+            <th>DateOfBirth</th>
+            <th>Edit</th>
+        </tr>
+        <tr *ngFor="let author of allAuthors | async | paginate: { itemsPerPage: count, currentPage: p }"  class="hover-highlight">
+            <td>
+                {{author.id}}
+            </td>
+            <td class="benchmark_name">
+                <span *ngIf="enableEditIndex != author.id">{{author.first_name}}</span>
+                <input type="text" [(ngModel)]="author.first_name" *ngIf="enableEdit && enableEditIndex == author.id"/>
+            </td>
+            <td>
+                <span *ngIf="enableEditIndex != author.id">{{author.last_name}}</span>
+                <input type="text" [(ngModel)]="author.last_name" *ngIf="enableEdit && enableEditIndex == author.id"/>
+            </td>
+            <td>
+                {{author.date_of_birth}}
+            </td>
+            <td>
+                <button type="button" *ngIf="author.id != enableEditIndex || enableEditIndex == null" (click)="enableEditMethod($event, author.id)">Edit</button>
+                <button type="button" *ngIf="enableEdit && enableEditIndex == author.id" (click)="enableEdit=false; cancel()">Cancel</button>
+                <button type="submit" *ngIf="enableEdit && enableEditIndex == author.id" (click)="onFormSubmit()">Submit</button>
+                <a href="#" class="table-row-action edit-action" *ngIf="author.id != enableEditIndex || enableEditIndex == null" (click)="enableEditMethod($event, author.id)">
+                    edit
+                </a>
+            </td>
+        </tr>
+    </table>
+    <div class="text-center">
+        <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    </div>   
+</div> -->

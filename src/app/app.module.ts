@@ -9,6 +9,9 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { RouterModule } from '@angular/router';
 import { AuthorComponent } from './author/author.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {NgEditComponent } from './ng-edit/ng-edit.component';
+
+
 import {
   MatButtonModule,
   MatMenuModule,
@@ -25,11 +28,11 @@ import {
   MatSlideToggleModule
 } from '@angular/material';
 
-
 @NgModule({
   declarations: [
     AppComponent,
-    AuthorComponent
+    AuthorComponent,
+    NgEditComponent
   ],
   imports: [
     BrowserModule,
