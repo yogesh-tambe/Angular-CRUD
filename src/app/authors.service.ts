@@ -7,13 +7,12 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthorsService {
-  url = 'http://localhost:3000/authors.json';
-  //apiUrl = 'http://localhost:3000/authors.json';
+  url = 'http://localhost:3000/authors';
   constructor(private _http: HttpClient) {
   }
 
   getAuthors() {
-    return this._http.get<Author[]>('http://localhost:3000/authors.json');
+    return this._http.get<Author[]>(this.url);
   }
 
   getAllAuthors(): Observable<Author[]>{

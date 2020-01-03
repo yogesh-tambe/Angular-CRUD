@@ -24,9 +24,9 @@ export class AuthorComponent implements OnInit {
 
   ngOnInit() {
     this.authorForm = this.formBuilder.group({
-      first_name: ['', [Validators.required]],
-      last_name: ['', [Validators.required]],
-      date_of_birth: ['', [Validators.required]]
+      first_name: [''],
+      last_name: [''],
+      date_of_birth: ['']
     });
     this.loadAllAuthors();
   }
@@ -54,7 +54,8 @@ export class AuthorComponent implements OnInit {
           this.authorForm.reset();
         }
       );
-    } else{
+    } 
+    else{
         author.id = this.authorIdToUpdate;
         this.authorsService.updateAuthor(author).
         subscribe(() => {
@@ -67,14 +68,14 @@ export class AuthorComponent implements OnInit {
     }
   }
 
-  loadAuthorToEdit(author: string) {
-    this.authorsService.getAuthorById(this.authorIdToUpdate).subscribe(author => {
+  loadAuthorToEdit(authorId: string) {
+      this.authorsService.getAuthorById(authorId).subscribe(author => {
       this.message = null;
       this.dataSaved = false;
       this.authorIdToUpdate = author.id;
-      this.authorForm.controls['first_name'].setvalue(author.first_name);
-      this.authorForm.controls['last_name'].setvalue(author.last_name);
-      this.authorForm.controls['date_of_birth'].setvalue(author.date_of_birth);
+      this.authorForm.controls['first_name'].setValue(author.first_name);
+      this.authorForm.controls['last_name'].setValue(author.last_name);
+      this.authorForm.controls['date_of_birth'].setValue(author.date_of_birth);
     })
   }
 
