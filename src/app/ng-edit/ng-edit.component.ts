@@ -17,12 +17,13 @@ export class NgEditComponent implements OnInit {
   dataSaved = false;
   authorIdToUpdate = null;
   message = null;
-
+  isAdd = false;
   constructor(private formBuilder: FormBuilder, private authorsService: AuthorsService) { }
 
   // name = 'Angular';
   enableEdit = false;
   enableEditIndex = null;
+  enableCreate = false;
   p: Number = 1;
   count: Number = 10;
 
@@ -30,7 +31,6 @@ export class NgEditComponent implements OnInit {
     this.enableEdit = true;
     this.enableEditIndex = i;
     this.authorsService.getAuthorById(i).subscribe(author => {
-    this.message = null;
     this.dataSaved = false;
     this.authorIdToUpdate = author.id;
     this.authorForm.controls['first_name'].setValue(author.first_name);
@@ -43,6 +43,9 @@ export class NgEditComponent implements OnInit {
   cancel() {
     console.log('cancel');
     this.enableEditIndex = null;
+    this.authorForm.reset();
+    this.loadAllAuthors();
+    this.isAdd = false;
   }
 
   saveSegment() {
@@ -61,20 +64,21 @@ export class NgEditComponent implements OnInit {
     this.allAuthors = this.authorsService.getAllAuthors();
   }
 
-  loadAuthorToEdit(authorId: string) {
-    this.authorsService.getAuthorById(authorId).subscribe(author => {
-    this.message = null;
-    this.dataSaved = false;
-    this.authorIdToUpdate = author.id;
-    this.authorForm.controls['first_name'].setValue(author.first_name);
-    this.authorForm.controls['last_name'].setValue(author.last_name);
-    this.authorForm.controls['date_of_birth'].setValue(author.date_of_birth);
-    })
-  }
+  // loadAuthorToEdit(authorId: string) {
+  //   this.authorsService.getAuthorById(authorId).subscribe(author => {
+  //   this.message = null;
+  //   this.dataSaved = false;
+  //   this.authorIdToUpdate = author.id;
+  //   this.authorForm.controls['first_name'].setValue(author.first_name);
+  //   this.authorForm.controls['last_name'].setValue(author.last_name);
+  //   this.authorForm.controls['date_of_birth'].setValue(author.date_of_birth);
+  //   })
+  // }
 
   createAuthor(author: Author) {
     if(this.authorIdToUpdate == null)
     {
+      // this.enableCreate = true;
       this.authorsService.createAuthor(author).subscribe(
         () => {
           this.dataSaved = true;
@@ -98,6 +102,7 @@ export class NgEditComponent implements OnInit {
 
   onFormSubmit() {
     this.dataSaved = false;
+    this.enableCreate = false;
     let author = this.authorForm.value;
     this.createAuthor(author);
     this.authorForm.reset();
@@ -112,5 +117,4 @@ export class NgEditComponent implements OnInit {
       // this.authorForm.reset();
     }) 
   }
-
 }

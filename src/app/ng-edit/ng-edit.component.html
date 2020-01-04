@@ -1,13 +1,16 @@
 <mat-card>
-        <mat-toolbar color="accent">
-            <span align="center">Angular CRUD operations</span>
-        </mat-toolbar>
-    </mat-card>
+    <mat-toolbar color="accent">
+        <span align="center" style="font-size: 1.5em;">Angular CRUD operations using inline edit</span>
+    </mat-toolbar>
+</mat-card>
         
     
     <div class="Container-fluid">
         <form [formGroup]="authorForm" (ngSubmit)="onFormSubmit(authorForm.value)">
             <h2 align = "center">Authors info</h2>
+            <p align="center">
+                <button type="button" class="btn btn-primary" (click)="enableCreate = true; isAdd = true">Add</button>
+            </p>
             <table id="authors" class="table table-bordered table-striped text-center">
                 <tr>
                     <th>ID</th>
@@ -16,6 +19,28 @@
                     <th>DateOfBirth</th>
                     <th>Edit</th>
                     <th>Delete</th>
+                </tr>
+                <tr>
+                    <ng-container *ngIf="isAdd">
+                        <td>
+                            
+                        </td>
+                        <td>
+                            <input type="text" formControlName="first_name" *ngIf="enableCreate"/>
+                        </td>
+                        <td>
+                            <input type="text" formControlName="last_name" *ngIf="enableCreate"/>
+                        </td>
+                        <td>
+                            <input type="text" formControlName="date_of_birth" *ngIf="enableCreate"/>
+                        </td>
+                        <td>
+                            <button type="submit" (click)="onFormSubmit()" *ngIf="enableCreate">Submit</button>
+                        </td>
+                        <td>
+                            <button type="button" *ngIf="enableCreate" (click)="enableCreate=false; cancel()">Cancel</button>
+                        </td>
+                    </ng-container>
                 </tr>
                 <tr *ngFor="let author of allAuthors | async | paginate: { itemsPerPage: count, currentPage: p }">
                     <td>{{author.id}}</td>
@@ -33,8 +58,8 @@
                     </td>
                     <td>
                         <button type="button" class="table-row-action edit-action" *ngIf="author.id != enableEditIndex || enableEditIndex == null" (click)="enableEditMethod($event, author.id)">Edit</button>
-                        <button type="button" *ngIf="enableEdit && enableEditIndex == author.id" (click)="enableEdit=false; cancel()">Cancel</button>
                         <button type="submit" *ngIf="enableEdit && enableEditIndex == author.id" (click)="onFormSubmit()">Submit</button>
+                        <button type="button" *ngIf="enableEdit && enableEditIndex == author.id" (click)="cancel()">Cancel</button>
                     </td>
                     <td>
                         <button type="button" (click)="deleteAuthor(author.id)">Delete</button>
