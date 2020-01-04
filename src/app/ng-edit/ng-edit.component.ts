@@ -107,6 +107,7 @@ export class NgEditComponent implements OnInit {
     this.createAuthor(author);
     this.authorForm.reset();
     this.enableEditIndex = null;
+    this.isAdd = false;
   }
 
   deleteAuthor(authorId: string) {
